@@ -1,4 +1,4 @@
-import openpyxl
+'''import openpyxl
 
 # Define default values for each stage
 default_values = {
@@ -102,3 +102,4 @@ try:
 
 except Exception as e:
     print("An error occurred:", str(e))
+'''
