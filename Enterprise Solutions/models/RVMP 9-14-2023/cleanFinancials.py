@@ -1,43 +1,38 @@
-import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
-# Momentum oscillator threshold
-threshold = 0.5
+# Load the Excel file
+excel_file = 'Financials.xlsx'  # Replace with the path to your Excel file
+df = pd.read_excel(excel_file)
 
-# Variables
-x = []
-y = []
-consecutive_below_75 = 0
+# Extract the relevant data columns
+income_data = df[['Income', 'Total']]
+expenses_data = df[['Expenses', 'Total']]
+net_income_data = df[['Net Income', 'Total']]
 
-# Generate random data points
-while len(x) < 150:
-    random_num = np.random.randint(1, 150)
-    
-    # Check if the random number is above 75
-    if random_num > 75:
-        x.append(random_num)
-        consecutive_below_75 = 0
-    else:
-        x.append(random_num)
-        consecutive_below_75 += 1
-        if consecutive_below_75 >= 5:
-            x[-5:] = [75] * 5
-            consecutive_below_75 = 0
+# Calculate the total income, total expenses, and net income
+total_income = income_data['Total'].sum()
+total_expenses = expenses_data['Total'].sum()
+net_income = net_income_data['Total'].sum()
 
-# Calculate the momentum oscillator value for each data point
-for num in x:
-    if num > threshold:
-        y.append("Trending Up")
-    else:
-        y.append("Trending Down")
+# Extract month-wise data
+months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September']
+monthly_income = [income_data['Total'][i] for i in range(len(months))]
+monthly_expenses = [expenses_data['Total'][i] for i in range(len(months))]
+monthly_net_income = [net_income_data['Total'][i] for i in range(len(months))]
 
-# Create a scatter plot summary
-plt.figure(figsize=(8, 6))
-plt.scatter(range(len(x)), x, c='b', marker='o', label='Data Points')
-plt.axhline(y=75, color='r', linestyle='--', label='Threshold (75)')
-plt.xlabel('Data Point Index')
-plt.ylabel('Value')
-plt.title('Momentum Oscillator Summary')
+# Create a bar chart
+plt.figure(figsize=(10, 6))
+plt.bar(months, monthly_income, label='Income', color='blue', alpha=0.7)
+plt.bar(months, monthly_expenses, label='Expenses', color='red', alpha=0.7)
+plt.bar(months, monthly_net_income, label='Net Income', color='green', alpha=0.7)
+
+plt.xlabel('Month')
+plt.ylabel('Amount')
+plt.title('Income, Expenses, and Net Income by Month')
 plt.legend()
-plt.grid(True)
+
+# Show the graph
+plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
+plt.tight_layout()
 plt.show()
