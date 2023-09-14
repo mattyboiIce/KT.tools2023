@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load the Excel file
-excel_file = 'your_excel_file.xlsx'  # Replace with the path to your Excel file
+excel_file = 'Financials.xlsx'  # Replace with the path to your Excel file
 df = pd.read_excel(excel_file)
 
 # Extract the relevant data columns
